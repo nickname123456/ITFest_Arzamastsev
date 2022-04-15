@@ -213,6 +213,13 @@ async def process_callback(callback_query: types.CallbackQuery):
     if data == 'information':
         # Отправляем сообщение
         await bot.send_message(callback_query.from_user.id, text='Я - бот. Создан участником Международного Фестиваля Информационных Технологий! Служу для оповещания новых мероприятиях. Можете посмотреть все мои комманды в /help')
+        await bot.send_message(callback_query.from_user.id, text='''
+А если тебе интересно, то
+Мой разработчик: Кирилл Арзамасцев
+GitHub: https://github.com/nickname123456
+Вк: https://vk.com/kirillarz
+Дс: CoalNavl#0043
+    ''')
     
     # Если дата = подписки:
     elif data == 'subscriptions':
@@ -230,7 +237,7 @@ async def process_callback(callback_query: types.CallbackQuery):
                 event_numbers.append(n)
         
         # Собираем текст по кусочкам
-        text = 'На данный момент ты подписан на:\n'
+        text = f'{random.choice(text_subscriptions)}\n'
         for i in event_numbers:
             text += f'{events[i-2][1]}\n'
 
@@ -240,7 +247,7 @@ async def process_callback(callback_query: types.CallbackQuery):
     # Если дата = доступные ивенты
     elif data == 'available_events':
         # Отправляем сообщение с клавиатурой
-        await bot.send_message(callback_query.from_user.id, text='Вот список мероприятий, на которые ты можешь подписаться:', reply_markup=keyboard.subscriptions_kb)
+        await bot.send_message(callback_query.from_user.id, text=random.choice(text_available_events), reply_markup=keyboard.subscriptions_kb)
 
 
 
