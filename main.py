@@ -23,8 +23,6 @@ scheduler = AsyncIOScheduler()
 # Инициализируем бота
 bot = Bot(token=TOKEN_TG)
 dp = Dispatcher(bot)
-# Подключаемся бота
-db = SQLighter('it_fest.db')
 
 
 

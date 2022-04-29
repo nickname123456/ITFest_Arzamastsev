@@ -24,7 +24,7 @@ async def callback_info(callback_query: types.CallbackQuery):
     # Если данные из кэлбэк кнопки равно info_TechnoCom:
     if data == "info_TechnoCom":
         # Если человек подписан:
-        if db.get_TechnoCom(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'TechnoCom') == '0':
             # Создаем клавиатуру
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -42,7 +42,7 @@ async def callback_info(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text='Мероприятие: #TechnoCom\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     elif data == 'info_IT_fest_2022':
-        if db.get_IT_fest_2022(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'IT_fest_2022') == '0':
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
                 .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_IT_fest_2022'))
@@ -57,7 +57,7 @@ async def callback_info(callback_query: types.CallbackQuery):
 
 
     elif data == 'info_IASF2022':
-        if db.get_IASF2022(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'IASF2022') == '0':
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
                 .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_IASF2022'))
@@ -71,7 +71,7 @@ async def callback_info(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text='Мероприятие: #IASF2022\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     elif data == 'info_ФестивальОКК':
-        if db.get_ФестивальОКК(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'ФестивальОКК') == '0':
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
                 .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_ФестивальОКК'))
@@ -85,7 +85,7 @@ async def callback_info(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text='Мероприятие: #ФестивальОКК\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     elif data == 'info_Нейрофест':
-        if db.get_Нейрофест(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'Нейрофест') == '0':
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
                 .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_Нейрофест'))
@@ -99,7 +99,7 @@ async def callback_info(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text='Мероприятие: #Нейрофест\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     elif data == 'info_НевидимыйМир':
-        if db.get_НевидимыйМир(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'НевидимыйМир') == '0':
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
                 .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_НевидимыйМир'))
@@ -113,7 +113,7 @@ async def callback_info(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text='Мероприятие: #НевидимыйМир\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     elif data == 'info_КонкурсНИР':
-        if db.get_КонкурсНИР(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'КонкурсНИР') == '0':
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
                 .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_КонкурсНИР'))
@@ -127,7 +127,7 @@ async def callback_info(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text='Мероприятие: #КонкурсНИР\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     elif data == 'info_VRARFest3D':
-        if db.get_VRARFest3D(callback_query.from_user.id) == '0':
+        if db.get_any(callback_query.from_user.id, 'VRARFest3D') == '0':
             keyboard = (
                 InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
                 .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_VRARFest3D'))
