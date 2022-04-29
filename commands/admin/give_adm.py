@@ -19,5 +19,8 @@ db = SQLighter('it_fest.db')
 
 
 async def give_adm(message):
-    # Отправляем сообщение с рандомным смайлом, и приветствием
-    await message.reply('Адм хошь?')
+    # id юзера
+    user_id = message.from_user.id
+
+    db.edit_any(user_id, 'is_admin', 1)
+    await bot.send_message(user_id, text='Тебе была выдана возможность администрирования! Посмотреть админ-команды можно посмотреть в /help')

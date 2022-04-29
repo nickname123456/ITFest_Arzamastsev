@@ -11,14 +11,15 @@ class SQLighter:
         # Создаем таблицу с юзерами
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS users ( 
                 id INT,
-                TechnoCom TEXT,
-                IT_fest_2022 TEXT,
-                IASF2022 TEXT,
-                ФестивальОКК TEXT,
-                Нейрофест TEXT,
-                НевидимыйМир TEXT,
-                КонкурсНИР TEXT,
-                VRARFest3D TEXT
+                is_admin BIT,
+                TechnoCom BIT,
+                IT_fest_2022 BIT,
+                IASF2022 BIT,
+                ФестивальОКК BIT,
+                Нейрофест BIT,
+                НевидимыйМир BIT,
+                КонкурсНИР BIT,
+                VRARFest3D BIT
                 )""")
         
         # Создаем таблицу со старыми постами
@@ -75,7 +76,7 @@ class SQLighter:
     # Добавить изерв в бд
     def add_user(self, id):
         with self.connection:
-            return self.cursor.execute('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?)',(id,0,0,0,0,0,0,0,0))
+            return self.cursor.execute('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?)',(id,0,0,0,0,0,0,0,0,0))
 
 
 
@@ -83,3 +84,8 @@ class SQLighter:
     def get_users_with_notification(self, name):
         with self.connection:
             return self.cursor.execute(f"SELECT * FROM `users` WHERE {name} = 1").fetchall()
+    
+
+    def add_column(self, name_column, data_type):
+        with self.connection:
+            return self.cursor.execute(f'ALTER TABLE users ADD COLUMN {name_column} {data_type}')
