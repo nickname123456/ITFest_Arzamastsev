@@ -16,6 +16,7 @@ from commands.callback_info import callback_info
 from commands.callback import callback
 from commands.notification import notification
 from commands.admin.give_adm import give_adm
+from commands.admin.add_column import add_column
 
 
 scheduler = AsyncIOScheduler()
@@ -48,6 +49,12 @@ async def process_help_command(message: types.Message):
 @dp.message_handler(commands=admin_password, commands_prefix='/')
 async def process_help_command(message: types.Message):
     await give_adm(message)
+
+
+# Команда добавления ивента
+@dp.message_handler(commands=['add', 'addevent', 'добавить'], commands_prefix='/')
+async def process_help_command(message: types.Message):
+    await add_column(message)
 
 
 
