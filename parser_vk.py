@@ -1,11 +1,12 @@
 # импортируем библиотеки
 from vkbottle import API
 from settings import *
+from private_data import TOKEN_VK
 
 # Получение постов по id сообщества и хэштэгу
 async def get_wall(owner_id, hashtag):
     # Подключаемся к вк
-    api = API("e2ada8c4e2ada8c4e2ada8c47de2d65c91ee2ade2ada8c480eb5de7e19e16f89bf20ca0")
+    api = API(TOKEN_VK)
     # Получаем стену вк
     wall = await api.wall.get(owner_id=owner_id)
     # Результат = []
