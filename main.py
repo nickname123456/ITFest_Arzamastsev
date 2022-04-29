@@ -4,7 +4,6 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
-from sqlighter import SQLighter
 
 from settings import *
 from private_data import TOKEN_TG, admin_password
