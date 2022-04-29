@@ -1,4 +1,5 @@
 # Импортируем библиотеки
+from sys import prefix
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -6,7 +7,7 @@ from aiogram.utils import executor
 from sqlighter import SQLighter
 
 from settings import *
-from private_data import TOKEN_TG
+from private_data import TOKEN_TG, admin_password
 
 from commands.start import start
 from commands.menu import menu
@@ -15,6 +16,7 @@ from commands.callback_subscribe import callback_subscribe
 from commands.callback_info import callback_info
 from commands.callback import callback
 from commands.notification import notification
+from commands.admin.give_adm import give_adm
 
 
 scheduler = AsyncIOScheduler()
@@ -43,6 +45,12 @@ async def process_menu_command(message: types.Message):
 @dp.message_handler(commands=['help', 'помощь'], commands_prefix='/')
 async def process_help_command(message: types.Message):
     await help(message)
+
+
+# Команда получения админки
+@dp.message_handler(commands=admin_password, commands_prefix='/')
+async def process_help_command(message: types.Message):
+    await give_adm(message)
 
 
 
