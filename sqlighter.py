@@ -21,18 +21,14 @@ class SQLighter:
                 КонкурсНИР BIT,
                 VRARFest3D BIT
                 )""")
-        
+
+
         # Создаем таблицу со старыми постами
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS old_posts (
-                id INT,
-                TechnoCom TEXT,
-                IT_fest_2022 TEXT,
-                IASF2022 TEXT,
-                ФестивальОКК TEXT,
-                Нейрофест TEXT,
-                НевидимыйМир TEXT,
-                КонкурсНИР TEXT,
-                VRARFest3D TEXT
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS events (
+                name TEXT,
+                group_id TEXT,
+                hashtag TEXT,
+                old_posts TEXT
                 )""")
 
 
@@ -47,11 +43,11 @@ class SQLighter:
     # Получить старые посты
     def get_old_posts(self, name):
         with self.connection:
-            return self.cursor.execute(f'SELECT {name} FROM `old_posts` WHERE `id` = 1').fetchone()[0]
+            return self.cursor.execute(f'SELECT old_posts FROM `events` WHERE `name` = {name}').fetchone()[0]
     # Изменить старые посты
     def edit_old_posts(self, name, value):
         with self.connection:
-            return self.cursor.execute(f"UPDATE `old_posts` SET {name} = ? WHERE `id` = 1", (str(value),))
+            return self.cursor.execute(f"UPDATE `events` SET old_posts = ? WHERE `name` = {name}", (str(value),))
 
 
 
@@ -70,13 +66,25 @@ class SQLighter:
     def edit_any(self, id, name,value):
         with self.connection:
             return self.cursor.execute(f"UPDATE `users` SET {name} = {value} WHERE `id` = {id}")
+    
 
+    def get_any_from_events(self, column, name):
+        with self.connection:
+            return self.cursor.execute(f'SELECT {column} FROM `events` WHERE `name` = {name}').fetchone()[0]
+    
+    def edit_any_from_events(self, column, name, value):
+        with self.connection:
+            return self.cursor.execute(f"UPDATE `events` SET {column} = {value} WHERE `name` = {name}")
 
 
     # Добавить изерв в бд
     def add_user(self, id):
         with self.connection:
             return self.cursor.execute('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?)',(id,0,0,0,0,0,0,0,0,0))
+    
+    def add_event(self, name, group_id, hashtag):
+            with self.connection:
+                return self.cursor.execute('INSERT INTO events VALUES (?,?,?,?)',(name, group_id, hashtag, '[]'))
 
 
 
@@ -86,6 +94,6 @@ class SQLighter:
             return self.cursor.execute(f"SELECT * FROM `users` WHERE {name} = 1").fetchall()
     
 
-    def add_column(self, name_column, data_type):
+    def add_column(self, table, name_column, data_type):
         with self.connection:
-            return self.cursor.execute(f'ALTER TABLE users ADD COLUMN {name_column} {data_type}')
+            return self.cursor.execute(f'ALTER TABLE {table} ADD COLUMN {name_column} {data_type}')
