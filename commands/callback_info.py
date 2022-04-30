@@ -23,6 +23,7 @@ async def callback_info(callback_query: types.CallbackQuery):
 
     data = str(callback_query.data)
     data = data[5:]
+    description = db.get_any_from_events('description', data)
     
 
     followers = eval(db.get_any_from_events('users', data))
@@ -32,7 +33,7 @@ async def callback_info(callback_query: types.CallbackQuery):
             .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{data}'))
         )
         # Отправляем сообщение
-        await bot.send_message(callback_query.from_user.id, text='Мероприятие: #TechnoCom\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
+        await bot.send_message(callback_query.from_user.id, text=f'Мероприятие: {data}\nОписание: {description}\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     else:
         keyboard = (
@@ -40,4 +41,4 @@ async def callback_info(callback_query: types.CallbackQuery):
             .add(InlineKeyboardButton('Подписаться', callback_data=f'subscribe_{data}'))
         )
         # Отправляем сообщение
-        await bot.send_message(callback_query.from_user.id, text=f'Мероприятие: {data}\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
+        await bot.send_message(callback_query.from_user.id, text=f'Мероприятие: {data}\nОписание: {description}\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)

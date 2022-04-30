@@ -4,9 +4,9 @@ from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from sqlighter import SQLighter
 import random
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from settings import *
-import keyboard
 from private_data import TOKEN_TG
 
 
@@ -37,13 +37,15 @@ GitHub: https://github.com/nickname123456
     
     # Если дата = подписки:
     elif data == 'subscriptions':
-        all_events = db.get_all_from_events()
+        subscriptions_kb =InlineKeyboardMarkup(row_width=4)
 
-        text = str(random.choice(text_subscriptions) + '\n')
-        for event in all_events:
-            if user_id in eval(event[4]):
-                text += f'#{event[0]}\n'
-        await bot.send_message(user_id, text=text)
+        events = db.get_all_from_events()
+        for event in events:
+            if user_id in eval(event[5]):
+                subscriptions_kb.insert(InlineKeyboardButton(f'#{event[0]}', callback_data=f'info_{event[0]}'))
+
+        await bot.send_message(callback_query.from_user.id, text=random.choice(text_subscriptions), reply_markup=subscriptions_kb)
+
                 
 
 
@@ -51,5 +53,10 @@ GitHub: https://github.com/nickname123456
     
     # Если дата = доступные ивенты
     elif data == 'available_events':
-        # Отправляем сообщение с клавиатурой
-        await bot.send_message(callback_query.from_user.id, text=random.choice(text_available_events), reply_markup=keyboard.subscriptions_kb)
+        subscriptions_kb =InlineKeyboardMarkup(row_width=4)
+
+        events = db.get_all_from_events()
+        for event in events:
+            subscriptions_kb.insert(InlineKeyboardButton(f'#{event[0]}', callback_data=f'info_{event[0]}'))
+
+        await bot.send_message(callback_query.from_user.id, text=random.choice(text_available_events), reply_markup=subscriptions_kb)

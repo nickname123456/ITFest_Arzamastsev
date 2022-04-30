@@ -20,6 +20,7 @@ class SQLighter:
                 name TEXT,
                 group_id TEXT,
                 hashtag TEXT,
+                description TEXT,
                 old_posts TEXT,
                 users TEXT
                 )""")
@@ -76,9 +77,9 @@ class SQLighter:
         with self.connection:
             return self.cursor.execute('INSERT INTO users VALUES (?,?)',(id,0))
     
-    def add_event(self, name, group_id, hashtag):
+    def add_event(self, name, group_id, hashtag, description):
             with self.connection:
-                return self.cursor.execute('INSERT INTO events VALUES (?,?,?,?,?)',(name, group_id, hashtag, '[]', '[]'))
+                return self.cursor.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',(name, group_id, hashtag, description, '[]', '[]'))
 
     def add_column(self, table, name_column, data_type):
         with self.connection:
