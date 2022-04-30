@@ -1,12 +1,15 @@
 # Импортируем библиотеки
-from sys import prefix
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
+from aiogram.dispatcher import FSMContext
 from aiogram.utils import executor
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from settings import *
 from private_data import TOKEN_TG, admin_password
+
+from commands.admin.add_event import addEventState
 
 from commands.start import start
 from commands.menu import menu
@@ -16,13 +19,13 @@ from commands.callback_info import callback_info
 from commands.callback import callback
 from commands.notification import notification
 from commands.admin.give_adm import give_adm
-from commands.admin.add_column import add_column
+from commands.admin.add_event import add_event_start, add_event_name, add_event_link, add_event_hashtag
 
 
 scheduler = AsyncIOScheduler()
 # Инициализируем бота
 bot = Bot(token=TOKEN_TG)
-dp = Dispatcher(bot)
+dp = Dispatcher(bot, storage=MemoryStorage())
 
 
 
@@ -51,10 +54,30 @@ async def process_help_command(message: types.Message):
     await give_adm(message)
 
 
+
+
+
 # Команда добавления ивента
-@dp.message_handler(commands=['add', 'addevent', 'добавить'], commands_prefix='/')
-async def process_help_command(message: types.Message):
-    await add_column(message)
+@dp.message_handler(commands=['add', 'addevent', 'добавить'])
+async def process_add_event_start(message: types.Message):
+    await add_event_start(message)
+
+@dp.message_handler(state=addEventState.name)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await add_event_name(message, state)
+
+@dp.message_handler(state=addEventState.link)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await add_event_link(message, state)
+
+@dp.message_handler(state=addEventState.hashtag)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await add_event_hashtag(message, state)
+
+
+
+
+
 
 
 
@@ -97,7 +120,7 @@ async def on_startup(dp):
     print('')
 
     # Каждые 60 минут запускаем рассылку
-    scheduler.add_job(notification, "interval", minutes=1, args=(dp,))
+    scheduler.add_job(notification, "interval", minutes=30, args=(dp,))
 
 
 # Если запустили этот файл, как главный:
