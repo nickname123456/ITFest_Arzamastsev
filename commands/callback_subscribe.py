@@ -22,15 +22,15 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
     # id юзера
     user_id = callback_query.from_user.id
     
-    # Если юзер до этого был не подписан:
-    if db.get_any(user_id, data) == 0:
-        # Теперь юзер подписан
-        db.edit_any(user_id, data, '1')
-        await bot.send_message(user_id, text=f'Ты успешно подписался на рассылку #{data}.')
-    
-    # Если юзер до этого был подписан
+    followers = eval(db.get_any_from_events('users', data))
+
+    if user_id in followers:
+        followers.remove(user_id)
+        text = f'Ты успешно отписался от рассылки #{data}.'
     else:
-        # Теперь юзер не подписан
-        db.edit_any(user_id, data, '0')
-        await bot.send_message(user_id, text=f'Ты успешно отписался от рассылки #{data}.')
+        followers.append(user_id)
+        text = f'Ты успешно подписался на рассылку #{data}.'
     
+    db.edit_any_from_events('users', data, str(followers))
+    
+    await bot.send_message(user_id, text=text)

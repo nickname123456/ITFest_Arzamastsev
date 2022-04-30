@@ -11,15 +11,7 @@ class SQLighter:
         # Создаем таблицу с юзерами
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS users ( 
                 id INT,
-                is_admin BIT,
-                TechnoCom BIT,
-                IT_fest_2022 BIT,
-                IASF2022 BIT,
-                ФестивальОКК BIT,
-                Нейрофест BIT,
-                НевидимыйМир BIT,
-                КонкурсНИР BIT,
-                VRARFest3D BIT
+                is_admin BIT
                 )""")
 
 
@@ -28,7 +20,8 @@ class SQLighter:
                 name TEXT,
                 group_id TEXT,
                 hashtag TEXT,
-                old_posts TEXT
+                old_posts TEXT,
+                users TEXT
                 )""")
 
 
@@ -43,6 +36,10 @@ class SQLighter:
     def get_all(self, id):
         with self.connection:
             return self.cursor.execute('SELECT * FROM `users` WHERE `id` = ?', (id,)).fetchall()[0]
+    
+    def get_all_from_events(self):
+        with self.connection:
+            return self.cursor.execute('SELECT * FROM `events`').fetchall()
 
 
 
@@ -66,22 +63,22 @@ class SQLighter:
 
     def get_any_from_events(self, column, name):
         with self.connection:
-            return self.cursor.execute(f'SELECT {column} FROM `events` WHERE `name` = {name}').fetchone()[0]
+            return self.cursor.execute(f'SELECT {column} FROM `events` WHERE `name` = ?', (name,)).fetchone()[0]
     
     def edit_any_from_events(self, column, name, value):
         with self.connection:
-            return self.cursor.execute(f"UPDATE `events` SET {column} = {value} WHERE `name` = {name}")
+            return self.cursor.execute(f"UPDATE `events` SET {column} = ? WHERE `name` = ?", (value, name,))
 
 
 
     # Добавить изерв в бд
     def add_user(self, id):
         with self.connection:
-            return self.cursor.execute('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?)',(id,0,0,0,0,0,0,0,0,0))
+            return self.cursor.execute('INSERT INTO users VALUES (?,?)',(id,0))
     
     def add_event(self, name, group_id, hashtag):
             with self.connection:
-                return self.cursor.execute('INSERT INTO events VALUES (?,?,?,?)',(name, group_id, hashtag, '[]'))
+                return self.cursor.execute('INSERT INTO events VALUES (?,?,?,?,?)',(name, group_id, hashtag, '[]', '[]'))
 
     def add_column(self, table, name_column, data_type):
         with self.connection:

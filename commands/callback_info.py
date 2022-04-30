@@ -19,123 +19,25 @@ db = SQLighter('it_fest.db')
 
 async def callback_info(callback_query: types.CallbackQuery):
     # Что хранится в колбек кнопке
-    data = callback_query.data
+    user_id = callback_query.from_user.id
+
+    data = str(callback_query.data)
+    data = data[5:]
     
-    # Если данные из кэлбэк кнопки равно info_TechnoCom:
-    if data == "info_TechnoCom":
-        # Если человек подписан:
-        if db.get_any(callback_query.from_user.id, 'TechnoCom') == 0:
-            # Создаем клавиатуру
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_TechnoCom'))
-            )
-            # Отправляем сообщение
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #TechnoCom\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            # Создаем клавиатуру
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_TechnoCom'))
-            )
-            # Отправляем сообщение
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #TechnoCom\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
-    elif data == 'info_IT_fest_2022':
-        if db.get_any(callback_query.from_user.id, 'IT_fest_2022') == 0:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_IT_fest_2022'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #IT_fest_2022\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_IT_fest_2022'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #IT_fest_2022\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
+    followers = eval(db.get_any_from_events('users', data))
+    if user_id in followers:
+        keyboard = (
+            InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+            .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{data}'))
+        )
+        # Отправляем сообщение
+        await bot.send_message(callback_query.from_user.id, text='Мероприятие: #TechnoCom\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
-
-    elif data == 'info_IASF2022':
-        if db.get_any(callback_query.from_user.id, 'IASF2022') == 0:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_IASF2022'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #IASF2022\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_IASF2022'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #IASF2022\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
-
-    elif data == 'info_ФестивальОКК':
-        if db.get_any(callback_query.from_user.id, 'ФестивальОКК') == 0:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_ФестивальОКК'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #ФестивальОКК\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_ФестивальОКК'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #ФестивальОКК\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
-
-    elif data == 'info_Нейрофест':
-        if db.get_any(callback_query.from_user.id, 'Нейрофест') == 0:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_Нейрофест'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #Нейрофест\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_Нейрофест'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #Нейрофест\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
-
-    elif data == 'info_НевидимыйМир':
-        if db.get_any(callback_query.from_user.id, 'НевидимыйМир') == 0:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_НевидимыйМир'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #НевидимыйМир\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_НевидимыйМир'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #НевидимыйМир\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
-
-    elif data == 'info_КонкурсНИР':
-        if db.get_any(callback_query.from_user.id, 'КонкурсНИР') == 0:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_КонкурсНИР'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #КонкурсНИР\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_КонкурсНИР'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #КонкурсНИР\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
-
-    elif data == 'info_VRARFest3D':
-        if db.get_any(callback_query.from_user.id, 'VRARFest3D') == 0:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Подписаться', callback_data='subscribe_VRARFest3D'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #VRARFest3D\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
-        else:
-            keyboard = (
-                InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                .add(InlineKeyboardButton('Отписаться', callback_data='subscribe_VRARFest3D'))
-            )
-            await bot.send_message(callback_query.from_user.id, text='Мероприятие: #VRARFest3D\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
+    else:
+        keyboard = (
+            InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+            .add(InlineKeyboardButton('Подписаться', callback_data=f'subscribe_{data}'))
+        )
+        # Отправляем сообщение
+        await bot.send_message(callback_query.from_user.id, text=f'Мероприятие: {data}\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
