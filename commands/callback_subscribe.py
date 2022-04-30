@@ -23,7 +23,7 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
     user_id = callback_query.from_user.id
     
     # Если юзер до этого был не подписан:
-    if db.get_any(user_id, data) == '0':
+    if db.get_any(user_id, data) == 0:
         # Теперь юзер подписан
         db.edit_any(user_id, data, '1')
         await bot.send_message(user_id, text=f'Ты успешно подписался на рассылку #{data}.')
