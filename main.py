@@ -124,7 +124,7 @@ async def on_startup(dp):
     print('')
 
     # Каждые 60 минут запускаем рассылку
-    scheduler.add_job(notification, "interval", minutes=30, args=(dp,))
+    scheduler.add_job(notification, "interval", minutes=1, args=(dp,))
 
 
 # Если запустили этот файл, как главный:
