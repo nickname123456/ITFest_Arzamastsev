@@ -1,7 +1,9 @@
 # Импортируем библиотеки
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
+from vkbottle import keyboard_gen
 from sqlighter import SQLighter
 import random
 from aiogram import Dispatcher, types
@@ -10,7 +12,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from settings import *
 from private_data import TOKEN_TG
-import keyboard
+import parser_vk
+from commands.callback_info import callback_info
 
 
 scheduler = AsyncIOScheduler()
@@ -26,6 +29,7 @@ class addEventState(StatesGroup):
     name = State()
     link = State()
     hashtag = State()
+    description = State()
 
 
 
@@ -67,7 +71,7 @@ async def add_event_link(message: types.Message, state: FSMContext):
     await state.update_data(link=message.text)
     await addEventState.next()
 
-    await message.answer(f'{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то нажми на кнопку ниже')
+    await message.answer(f'{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то напиши "нет"')
 
 
 
@@ -77,11 +81,41 @@ async def add_event_hashtag(message: types.Message, state: FSMContext):
     if db.get_any(user_id, 'is_admin') == 0:
         await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
         return
-    if not message.text.startswith(tuple('#')):
+    if not message.text.startswith(tuple('#')) and message.text.lower() != 'нет':
         await message.answer('Хэштег должен начинаться на "#"!')
         return
     
-    user_data = await state.get_data()
+    if message.text.lower() == 'нет': 
+        await state.update_data(hashtag='')
+        await message.answer("Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента")
+    else: 
+        await state.update_data(hashtag=message.text)
+        await message.answer(f"{message.text} ! А че, звучит хайпова. Теперь введи краткое описание ивента")
+
+    await addEventState.next()
     
-    await message.answer(f"{user_data['name']} {user_data['link']} {message.text}")
+    
+
+
+
+async def add_event_description(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+
+    if db.get_any(user_id, 'is_admin') == 0:
+        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        return
+    
+    user_data = await state.get_data()
+
+
+    group_id = await parser_vk.get_id(str(user_data['link'])[15:])
+    name = user_data['name']
+    hashtag = user_data['hashtag']
+    description = message.text
+    
+    db.add_event(name, group_id, hashtag, description)
+
+    keyboard = InlineKeyboardMarkup().add(InlineKeyboardButton(f'{name}', callback_data=f'info_{name}'))
+
+    await message.answer("Твой ивент успешно добавлен! Хочешь посмотреть?", reply_markup=keyboard)
     await state.finish()

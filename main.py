@@ -19,7 +19,7 @@ from commands.callback_info import callback_info
 from commands.callback import callback
 from commands.notification import notification
 from commands.admin.give_adm import give_adm
-from commands.admin.add_event import add_event_start, add_event_name, add_event_link, add_event_hashtag
+from commands.admin.add_event import add_event_start, add_event_name, add_event_link, add_event_hashtag, add_event_description
 
 
 scheduler = AsyncIOScheduler()
@@ -73,6 +73,10 @@ async def process_help_command(message: types.Message, state: FSMContext):
 @dp.message_handler(state=addEventState.hashtag)
 async def process_help_command(message: types.Message, state: FSMContext):
     await add_event_hashtag(message, state)
+
+@dp.message_handler(state=addEventState.description)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await add_event_description(message, state)
 
 
 

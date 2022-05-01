@@ -39,3 +39,9 @@ async def get_notification(event, old_posts):
     return all_posts, new_posts
 
 
+async def get_id(screen_name):
+    # Подключаемся к вк
+    api = API(TOKEN_VK)
+    info = await api.utils.resolve_screen_name(screen_name)
+    return info.object_id
+     

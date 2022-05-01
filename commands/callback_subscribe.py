@@ -26,10 +26,10 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
 
     if user_id in followers:
         followers.remove(user_id)
-        text = f'Ты успешно отписался от рассылки #{data}.'
+        text = f'Ты успешно отписался от рассылки {data}.'
     else:
         followers.append(user_id)
-        text = f'Ты успешно подписался на рассылку #{data}.'
+        text = f'Ты успешно подписался на рассылку {data}.'
     
     db.edit_any_from_events('users', data, str(followers))
     
