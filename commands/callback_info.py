@@ -22,23 +22,25 @@ async def callback_info(callback_query: types.CallbackQuery):
     user_id = callback_query.from_user.id
 
     data = str(callback_query.data)
-    data = data[5:]
-    description = db.get_any_from_events('description', data)
+    name = data[5:]
+    description = db.get_any_from_events('description', name)
+    hashtag = db.get_any_from_events('hashtag', name)
+    group_id = db.get_any_from_events('group_id', name)
     
 
-    followers = eval(db.get_any_from_events('users', data))
+    followers = eval(db.get_any_from_events('users', name))
     if user_id in followers:
         keyboard = (
             InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-            .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{data}'))
+            .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{name}'))
         )
         # Отправляем сообщение
-        await bot.send_message(callback_query.from_user.id, text=f'Мероприятие: {data}\nОписание: {description}\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
+        await bot.send_message(callback_query.from_user.id, text=f'Название: {name}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
 
     else:
         keyboard = (
             InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-            .add(InlineKeyboardButton('Подписаться', callback_data=f'subscribe_{data}'))
+            .add(InlineKeyboardButton('Подписаться', callback_data=f'subscribe_{name}'))
         )
         # Отправляем сообщение
-        await bot.send_message(callback_query.from_user.id, text=f'Мероприятие: {data}\nОписание: {description}\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
+        await bot.send_message(callback_query.from_user.id, text=f'Название: {name}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)

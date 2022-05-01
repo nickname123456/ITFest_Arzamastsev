@@ -108,7 +108,7 @@ async def add_event_description(message: types.Message, state: FSMContext):
     user_data = await state.get_data()
 
 
-    group_id = await parser_vk.get_id(str(user_data['link'])[15:])
+    group_id = user_data['link']
     name = user_data['name']
     hashtag = user_data['hashtag']
     description = message.text
