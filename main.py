@@ -23,6 +23,7 @@ from commands.admin.give_adm import give_adm
 from commands.admin.add_event import add_event_start, add_event_name, add_event_link, add_event_hashtag, add_event_description
 from commands.admin.cancel import cancel
 from commands.admin.delete_event import delete_event_kb, callback_delete
+from commands.admin.edit_event import edit_event_kb, edit_event_description,edit_event_hashtag,edit_event_link,edit_event_name, edit_event_start, editEventState
 
 
 scheduler = AsyncIOScheduler()
@@ -59,8 +60,14 @@ async def process_help_command(message: types.Message):
 
 
 @dp.message_handler(commands=['delete', 'удалить'])
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_help_command(message: types.Message):
     await delete_event_kb(message)
+
+
+
+@dp.message_handler(commands=['edit', 'изменить'])
+async def process_help_command(message: types.Message):
+    await edit_event_kb(message)
 
 
 
@@ -92,6 +99,24 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 
 
+@dp.message_handler(state=editEventState.name)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await edit_event_name(message, state)
+
+@dp.message_handler(state=editEventState.link)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await edit_event_link(message, state)
+
+@dp.message_handler(state=editEventState.hashtag)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await edit_event_hashtag(message, state)
+
+@dp.message_handler(state=editEventState.description)
+async def process_help_command(message: types.Message, state: FSMContext):
+    await edit_event_description(message, state)
+
+
+
 
 
 
@@ -113,6 +138,12 @@ async def process_callback_info(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('delete_'))
 async def process_callback_delete(callback_query: types.CallbackQuery):
     await callback_delete(callback_query)
+
+
+
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith('edit_'))
+async def process_callback_delete(callback_query: types.CallbackQuery, state: FSMContext):
+    await edit_event_start(callback_query, state)
 
 
 # Обработка всех остальных кэлбэк кнопок
