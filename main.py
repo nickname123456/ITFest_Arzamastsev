@@ -20,6 +20,7 @@ from commands.callback import callback
 from commands.notification import notification
 from commands.admin.give_adm import give_adm
 from commands.admin.add_event import add_event_start, add_event_name, add_event_link, add_event_hashtag, add_event_description
+from commands.admin.cancel import cancel
 
 
 scheduler = AsyncIOScheduler()
@@ -55,6 +56,10 @@ async def process_help_command(message: types.Message):
 
 
 
+
+@dp.message_handler(commands=['cancel', 'отмена'],state='*')
+async def process_help_command(message: types.Message, state: FSMContext):
+    await cancel(message, state)
 
 
 # Команда добавления ивента
