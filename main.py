@@ -21,6 +21,7 @@ from commands.notification import notification
 from commands.admin.give_adm import give_adm
 from commands.admin.add_event import add_event_start, add_event_name, add_event_link, add_event_hashtag, add_event_description
 from commands.admin.cancel import cancel
+from commands.admin.delete_event import delete_event_kb, callback_delete
 
 
 scheduler = AsyncIOScheduler()
@@ -54,6 +55,11 @@ async def process_help_command(message: types.Message):
 async def process_help_command(message: types.Message):
     await give_adm(message)
 
+
+
+@dp.message_handler(commands=['delete', 'удалить'])
+async def process_help_command(message: types.Message, state: FSMContext):
+    await delete_event_kb(message)
 
 
 
@@ -96,15 +102,16 @@ async def process_callback_subscribe(callback_query: types.CallbackQuery):
     await callback_subscribe(callback_query)
     
 
-
-
-
 # Обработка кэлбэк кнопок с информацией
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('info_'))
 async def process_callback_info(callback_query: types.CallbackQuery):
     await callback_info(callback_query)
 
 
+
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith('delete_'))
+async def process_callback_delete(callback_query: types.CallbackQuery):
+    await callback_delete(callback_query)
 
 
 # Обработка всех остальных кэлбэк кнопок

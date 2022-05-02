@@ -85,3 +85,8 @@ class SQLighter:
         with self.connection:
             return self.cursor.execute(f'ALTER TABLE {table} ADD COLUMN {name_column} {data_type}')
 
+
+
+    def delete_any_from_events(self, name):
+        with self.connection:
+            return self.cursor.execute(f'DELETE FROM `events` WHERE `name` = (?)', (name,))
