@@ -32,13 +32,17 @@ async def callback_info(callback_query: types.CallbackQuery):
             InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
             .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{name}'))
         )
-        # Отправляем сообщение
-        await bot.send_message(callback_query.from_user.id, text=f'Название: {name}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: ✅Вы подписаны✅', reply_markup=keyboard)
-
+        status = '✅Вы подписаны✅'
     else:
         keyboard = (
             InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
             .add(InlineKeyboardButton('Подписаться', callback_data=f'subscribe_{name}'))
         )
-        # Отправляем сообщение
-        await bot.send_message(callback_query.from_user.id, text=f'Название: {name}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: ❌Вы не подписаны❌', reply_markup=keyboard)
+        status = '❌Вы не подписаны❌'
+
+    if db.get_any(user_id, 'is_admin') == 1:
+        keyboard.add(InlineKeyboardButton('Изменить', callback_data=f'edit_{name}'))
+        keyboard.insert(InlineKeyboardButton('Удалить', callback_data=f'delete_{name}'))
+
+    # Отправляем сообщение
+    await bot.send_message(callback_query.from_user.id, text=f'Название: {name}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: {status}', reply_markup=keyboard)
