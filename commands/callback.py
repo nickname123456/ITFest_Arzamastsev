@@ -42,7 +42,7 @@ GitHub: https://github.com/nickname123456
         events = db.get_all_from_events()
         for event in events:
             if user_id in eval(event[5]):
-                subscriptions_kb.insert(InlineKeyboardButton(f'#{event[0]}', callback_data=f'info_{event[0]}'))
+                subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}'))
 
         await bot.send_message(callback_query.from_user.id, text=random.choice(text_subscriptions), reply_markup=subscriptions_kb)
 
