@@ -1,5 +1,6 @@
 # Импортируем библиотеки
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
 from sqlighter import SQLighter
@@ -33,4 +34,8 @@ async def notification(dp):
             # Перебираем новые посты
             for post in new_posts:
                 # Отправляем пост юзеру
-                await bot.send_message(user, str(post))
+                keyboard = (
+                    InlineKeyboardMarkup()
+                    .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{event[0]}'))
+                )
+                await bot.send_message(user, str(post), reply_markup=keyboard)
