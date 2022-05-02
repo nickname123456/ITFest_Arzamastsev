@@ -42,7 +42,11 @@ GitHub: https://github.com/nickname123456
             if user_id in eval(event[5]):
                 subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}'))
 
-        await bot.send_message(callback_query.from_user.id, text=random.choice(text_subscriptions), reply_markup=subscriptions_kb)
+        if len(subscriptions_kb.inline_keyboard) > 0:
+            await bot.send_message(callback_query.from_user.id, text=random.choice(text_subscriptions), reply_markup=subscriptions_kb)
+        else:
+            subscriptions_kb.insert(InlineKeyboardButton('🔓Доступные мероприятия', callback_data='available_events'))
+            await bot.send_message(callback_query.from_user.id, text='Ты ни на что не подписан.', reply_markup=subscriptions_kb)
 
                 
 
