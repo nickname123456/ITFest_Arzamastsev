@@ -5,6 +5,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.utils import executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.dispatcher.filters import Text
 
 from settings import *
 from private_data import TOKEN_TG, admin_password
@@ -115,8 +116,9 @@ async def process_callback_delete(callback_query: types.CallbackQuery):
 
 
 # Обработка всех остальных кэлбэк кнопок
+@dp.message_handler(Text(equals=["ℹИнформация", '✔Подписки', '🔓Доступные мероприятия']))
 @dp.callback_query_handler(lambda c: c.data)
-async def process_callback(callback_query: types.CallbackQuery):
+async def process_callback(callback_query: types.CallbackQuery=None):
     await callback(callback_query)
 
 
