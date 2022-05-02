@@ -1,9 +1,5 @@
-# Импортируем библиотеки
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
 from sqlighter import SQLighter
-import random
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from settings import *

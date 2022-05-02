@@ -1,5 +1,4 @@
 # Импортируем библиотеки
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
@@ -9,7 +8,6 @@ import parser_vk
 from private_data import TOKEN_TG
 
 
-scheduler = AsyncIOScheduler()
 # Инициализируем бота
 bot = Bot(token=TOKEN_TG)
 dp = Dispatcher(bot)
@@ -18,7 +16,7 @@ db = SQLighter('it_fest.db')
 
 
 # Функция с рассылкой
-async def notification(dp):
+async def notification():
     # Перебираем ивенты
     events = db.get_all_from_events()
     for event in events:

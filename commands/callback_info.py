@@ -1,5 +1,4 @@
 # Импортируем библиотеки
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
@@ -9,7 +8,6 @@ from settings import *
 from private_data import TOKEN_TG
 
 
-scheduler = AsyncIOScheduler()
 # Инициализируем бота
 bot = Bot(token=TOKEN_TG)
 dp = Dispatcher(bot)

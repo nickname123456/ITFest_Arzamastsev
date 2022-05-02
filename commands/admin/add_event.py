@@ -1,26 +1,12 @@
-# Импортируем библиотеки
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram import Bot
-from aiogram.dispatcher import Dispatcher
-from vkbottle import keyboard_gen
 from sqlighter import SQLighter
-import random
-from aiogram import Dispatcher, types
+from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from settings import *
-from private_data import TOKEN_TG
-import parser_vk
-from commands.callback_info import callback_info
 
 
-scheduler = AsyncIOScheduler()
-# Инициализируем бота
-bot = Bot(token=TOKEN_TG)
-dp = Dispatcher(bot)
-# Подключаемся бота
 db = SQLighter('it_fest.db')
 
 
