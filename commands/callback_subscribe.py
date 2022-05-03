@@ -2,6 +2,7 @@
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from sqlighter import SQLighter
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from settings import *
 from private_data import TOKEN_TG
@@ -24,11 +25,33 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
 
     if user_id in followers:
         followers.remove(user_id)
-        text = f'Ты успешно отписался от рассылки {data}.'
+        await callback_query.answer(f'Ты успешно отписался от рассылки {data}.')
+
+        keyboard = (
+            InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+            .add(InlineKeyboardButton('Подписаться', callback_data=f'subscribe_{data}'))
+        )
+        status = '❌Вы не подписаны❌'
     else:
         followers.append(user_id)
-        text = f'Ты успешно подписался на рассылку {data}.'
+        await callback_query.answer(f'Ты успешно подписался на рассылку {data}.')
+
+        keyboard = (
+            InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+            .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{data}'))
+        )
+        status = '✅Вы подписаны✅'
     
+    if db.get_any(user_id, 'is_admin') == 1:
+        keyboard.add(InlineKeyboardButton('Изменить', callback_data=f'edit_{data}'))
+        keyboard.insert(InlineKeyboardButton('Удалить', callback_data=f'delete_{data}'))
+
     db.edit_any_from_events('users', data, str(followers))
+    name = data
+    description = db.get_any_from_events('description', name)
+    hashtag = db.get_any_from_events('hashtag', name)
+    group_id = db.get_any_from_events('group_id', name)
+    text = f'Название: {name}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: {status}'
     
-    await bot.send_message(user_id, text=text)
+    await bot.edit_message_text(text, user_id, callback_query.message.message_id)
+    await bot.edit_message_reply_markup(user_id, callback_query.message.message_id, reply_markup=keyboard)

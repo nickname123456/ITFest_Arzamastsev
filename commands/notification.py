@@ -34,6 +34,6 @@ async def notification():
                 # Отправляем пост юзеру
                 keyboard = (
                     InlineKeyboardMarkup()
-                    .add(InlineKeyboardButton('Отписаться', callback_data=f'subscribe_{event[0]}'))
+                    .add(InlineKeyboardButton('Информация об ивенте', callback_data=f'info_{event[0]}'))
                 )
                 await bot.send_message(user, str(post), reply_markup=keyboard)
