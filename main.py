@@ -6,6 +6,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.utils import executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters import Text
+from sqlighter import SQLighter
 
 from settings import *
 from private_data import TOKEN_TG, admin_password
@@ -31,6 +32,7 @@ scheduler = AsyncIOScheduler()
 bot = Bot(token=TOKEN_TG)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
+db = SQLighter('it_fest.db')
 
 
 
@@ -43,76 +45,181 @@ async def process_start_command(message: types.Message):
 # Команда меню
 @dp.message_handler(commands=['menu', 'меню'], commands_prefix='/')
 async def process_menu_command(message: types.Message):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await menu(message)
 
 
 # Команда помощь
 @dp.message_handler(commands=['help', 'помощь'], commands_prefix='/')
 async def process_help_command(message: types.Message):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await help(message)
 
 
 # Команда получения админки
 @dp.message_handler(commands=admin_password, commands_prefix='/')
 async def process_help_command(message: types.Message):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await give_adm(message)
 
 
 
 @dp.message_handler(commands=['delete', 'удалить'])
 async def process_help_command(message: types.Message):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await delete_event_kb(message)
 
 
 
 @dp.message_handler(commands=['edit', 'изменить'])
 async def process_help_command(message: types.Message):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await edit_event_kb(message)
 
 
 
 @dp.message_handler(commands=['cancel', 'отмена'],state='*')
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await cancel(message, state)
 
 
 # Команда добавления ивента
 @dp.message_handler(commands=['add', 'addevent', 'добавить'])
 async def process_add_event_start(message: types.Message):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await add_event_start(message)
 
 @dp.message_handler(state=addEventState.name)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await add_event_name(message, state)
 
 @dp.message_handler(state=addEventState.link)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await add_event_link(message, state)
 
 @dp.message_handler(state=addEventState.hashtag)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await add_event_hashtag(message, state)
 
 @dp.message_handler(state=addEventState.description)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await add_event_description(message, state)
 
 
 
 @dp.message_handler(state=editEventState.name)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await edit_event_name(message, state)
 
 @dp.message_handler(state=editEventState.link)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await edit_event_link(message, state)
 
 @dp.message_handler(state=editEventState.hashtag)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await edit_event_hashtag(message, state)
 
 @dp.message_handler(state=editEventState.description)
 async def process_help_command(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await edit_event_description(message, state)
 
 
@@ -125,24 +232,52 @@ async def process_help_command(message: types.Message, state: FSMContext):
 # Обработка кэлбек кнопок с расылкой
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('subscribe_'))
 async def process_callback_subscribe(callback_query: types.CallbackQuery):
+    user_id = callback_query.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await callback_subscribe(callback_query)
     
 
 # Обработка кэлбэк кнопок с информацией
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('info_'))
 async def process_callback_info(callback_query: types.CallbackQuery):
+    user_id = callback_query.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await callback_info(callback_query)
 
 
 
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('delete_'))
 async def process_callback_delete(callback_query: types.CallbackQuery):
+    user_id = callback_query.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await callback_delete(callback_query)
 
 
 
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('edit_'))
 async def process_callback_delete(callback_query: types.CallbackQuery, state: FSMContext):
+    user_id = callback_query.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await edit_event_start(callback_query, state)
 
 
@@ -150,6 +285,13 @@ async def process_callback_delete(callback_query: types.CallbackQuery, state: FS
 @dp.message_handler(Text(equals=["ℹИнформация", '✔Подписки', '🔓Доступные мероприятия']))
 @dp.callback_query_handler(lambda c: c.data)
 async def process_callback(callback_query: types.CallbackQuery=None):
+    user_id = callback_query.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
     await callback(callback_query)
 
 
