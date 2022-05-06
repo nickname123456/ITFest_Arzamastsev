@@ -229,6 +229,24 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 
 
+
+@dp.callback_query_handler(lambda c: c.data and c.data == 'add_non_hashtag', state=addEventState.hashtag)
+async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, state = FSMContext):
+    user_id = callback_query.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    if db.get_any(user_id, 'is_admin') == 0:
+        await callback_query.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        return
+    
+    await state.update_data(hashtag='')
+    await addEventState.next()
+    await bot.send_message(user_id, "Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента")
+
+
 # Обработка кэлбек кнопок с расылкой
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('subscribe_'))
 async def process_callback_subscribe(callback_query: types.CallbackQuery):

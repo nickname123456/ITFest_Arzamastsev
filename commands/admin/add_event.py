@@ -57,7 +57,11 @@ async def add_event_link(message: types.Message, state: FSMContext):
     await state.update_data(link=message.text)
     await addEventState.next()
 
-    await message.answer(f'{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то напиши "нет"')
+    keyboard = (
+            InlineKeyboardMarkup()
+            .add(InlineKeyboardButton('Нет хэштега', callback_data=f'add_non_hashtag'))
+        )
+    await message.answer(f'{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то нажми на кнопку ниже', reply_markup=keyboard)
 
 
 
