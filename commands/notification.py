@@ -11,7 +11,7 @@ from private_data import TOKEN_TG
 # Инициализируем бота
 bot = Bot(token=TOKEN_TG)
 dp = Dispatcher(bot)
-# Подключаемся бота
+# Подключаемся к бд
 db = SQLighter('it_fest.db')
 
 
