@@ -38,6 +38,7 @@ class SQLighter:
         with self.connection:
             return self.cursor.execute('SELECT * FROM `users` WHERE `id` = ?', (id,)).fetchall()[0]
     
+    # Получить все ивенты
     def get_all_from_events(self):
         with self.connection:
             return self.cursor.execute('SELECT * FROM `events`').fetchall()
@@ -51,7 +52,7 @@ class SQLighter:
 
 
 
-    # Получить что-то по юзера
+    # Получить что-то про юзера
     def get_any(self, id, name):
         with self.connection:
             return self.cursor.execute(f'SELECT {name} FROM `users` WHERE `id` = {id}').fetchone()[0]
@@ -61,32 +62,32 @@ class SQLighter:
             return self.cursor.execute(f"UPDATE `users` SET {name} = {value} WHERE `id` = {id}")
     
 
-
+    # Получить что-то из ивентов
     def get_any_from_events(self, column, name):
         with self.connection:
             return self.cursor.execute(f'SELECT {column} FROM `events` WHERE `name` = ?', (name,)).fetchone()[0]
-    
+    # Изменить что-то из ивентов
     def edit_any_from_events(self, column, name, value):
         with self.connection:
             return self.cursor.execute(f"UPDATE `events` SET {column} = ? WHERE `name` = ?", (value, name,))
 
 
 
-    # Добавить изерв в бд
+    # Добавить юзера в бд
     def add_user(self, id):
         with self.connection:
             return self.cursor.execute('INSERT INTO users VALUES (?,?)',(id,0))
-    
+    # Добавить ивент
     def add_event(self, name, group_id, hashtag, description):
             with self.connection:
                 return self.cursor.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',(name, group_id, hashtag, description, '[]', '[]'))
-
+    # Добавить колонну
     def add_column(self, table, name_column, data_type):
         with self.connection:
             return self.cursor.execute(f'ALTER TABLE {table} ADD COLUMN {name_column} {data_type}')
 
 
-
+    # Удалить что-то из ивентов
     def delete_any_from_events(self, name):
         with self.connection:
             return self.cursor.execute(f'DELETE FROM `events` WHERE `name` = (?)', (name,))
