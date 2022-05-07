@@ -140,14 +140,22 @@ async def edit_event_description(message: types.Message, state: FSMContext):
         await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
         return
     
+    await state.update_data(description='keep_old')
+    
     user_data = await state.get_data() # Получаем все новые данные
+    old_name = user_data['old_name'] # Старое название
 
+    if user_data['link'] == 'keep_old': group_id = db.get_any_from_events('group_id',old_name) # Если надо оставить старую ссылку
+    else: group_id = user_data['link'] # Если не надо оставить старую ссылку
 
-    group_id = user_data['link']
-    name = user_data['name']
-    old_name = user_data['old_name']
-    hashtag = user_data['hashtag']
-    description = message.text
+    if user_data['name'] == 'keep_old': name = db.get_any_from_events('name',old_name)
+    else: name = user_data['name']
+    
+    if user_data['hashtag'] == 'keep_old': hashtag = db.get_any_from_events('hashtag',old_name)
+    else: hashtag = user_data['hashtag']
+    
+    if user_data['description'] == 'keep_old': description = db.get_any_from_events('description',old_name)
+    else: description = user_data['description']
     
     # Меняем значения в бд
     db.edit_any_from_events('group_id', old_name, group_id)
