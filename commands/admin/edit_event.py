@@ -65,6 +65,9 @@ async def edit_event_name(message: types.Message, state: FSMContext):
     if db.get_any(user_id, 'is_admin') == 0:
         await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
         return
+    if len(message.text) > 35:
+        await message.answer('Слишком большое название! Пожалуйста, попробуй его сократить')
+        return
     
     await state.update_data(name=message.text) # Задаем новое название
     await editEventState.next() # Переходим на следующий этап
