@@ -12,12 +12,12 @@ from private_data import TOKEN_TG
 # Инициализируем бота
 bot = Bot(token=TOKEN_TG)
 dp = Dispatcher(bot)
-# Подключаемся бота
+# Подключаемся к бд
 db = SQLighter('it_fest.db')
 
 
 async def callback(query: types.CallbackQuery):
-    if isinstance(query, types.CallbackQuery):
+    if isinstance(query, types.CallbackQuery): # Если на вход функция получает CallbackQuery
         # Что хранится в колбек кнопке
         data = query.data
         user_id = query.from_user.id
@@ -38,14 +38,15 @@ async def callback(query: types.CallbackQuery):
         elif data == 'subscriptions':
             subscriptions_kb =InlineKeyboardMarkup(row_width=4)
 
+            # Перебираем все ивенты
             events = db.get_all_from_events()
             for event in events:
-                if user_id in eval(event[5]):
-                    subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}'))
-
+                if user_id in eval(event[5]): # Если юзер подписан
+                    subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}')) # Добавляем новую кнопку
+            # Если ивенты есть
             if len(subscriptions_kb.inline_keyboard) > 0:
                 await bot.send_message(query.from_user.id, text=random.choice(text_subscriptions), reply_markup=subscriptions_kb)
-            else:
+            else: # Если ивентов нет
                 subscriptions_kb.insert(InlineKeyboardButton('🔓Доступные мероприятия', callback_data='available_events'))
                 await bot.send_message(query.from_user.id, text='Ты ни на что не подписан.', reply_markup=subscriptions_kb)
         
@@ -53,16 +54,17 @@ async def callback(query: types.CallbackQuery):
         elif data == 'available_events':
             subscriptions_kb =InlineKeyboardMarkup(row_width=4)
 
+            # Перебираем все ивенты
             events = db.get_all_from_events()
             for event in events:
-                subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}'))
+                subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}')) # Добавляем новую кнопку
 
             await bot.send_message(query.from_user.id, text=random.choice(text_available_events), reply_markup=subscriptions_kb)
 
 
 
 
-    elif isinstance(query, types.Message):
+    elif isinstance(query, types.Message): # Если на вход функция получает Message
         user_id = query.from_user.id
         text = query.text
         
@@ -82,14 +84,15 @@ async def callback(query: types.CallbackQuery):
         elif text == '✔Подписки':
             subscriptions_kb =InlineKeyboardMarkup(row_width=4)
 
+            # Перебираем все ивенты
             events = db.get_all_from_events()
             for event in events:
-                if user_id in eval(event[5]):
-                    subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}'))
-
+                if user_id in eval(event[5]): # Если юзер подписан
+                    subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}')) # Добавляем новую кнопку
+            # Если ивенты есть
             if len(subscriptions_kb.inline_keyboard) > 0:
                 await bot.send_message(query.from_user.id, text=random.choice(text_subscriptions), reply_markup=subscriptions_kb)
-            else:
+            else: # Если ивентов нет
                 subscriptions_kb.insert(InlineKeyboardButton('🔓Доступные мероприятия', callback_data='available_events'))
                 await bot.send_message(query.from_user.id, text='Ты ни на что не подписан.', reply_markup=subscriptions_kb)
         
@@ -97,8 +100,9 @@ async def callback(query: types.CallbackQuery):
         elif text == '🔓Доступные мероприятия':
             subscriptions_kb =InlineKeyboardMarkup(row_width=4)
 
+            # Перебираем все ивенты
             events = db.get_all_from_events()
             for event in events:
-                subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}'))
+                subscriptions_kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'info_{event[0]}')) # Добавляем новую кнопку
 
             await bot.send_message(query.from_user.id, text=random.choice(text_available_events), reply_markup=subscriptions_kb)
