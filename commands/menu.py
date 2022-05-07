@@ -1,3 +1,4 @@
+# Импортируем библиотеки
 import random
 
 from settings import *
