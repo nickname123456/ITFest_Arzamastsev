@@ -3,6 +3,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.dispatcher import FSMContext
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils import executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters import Text
@@ -245,6 +246,65 @@ async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, 
     await state.update_data(hashtag='')
     await addEventState.next()
     await bot.send_message(user_id, "Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента")
+
+
+
+@dp.callback_query_handler(lambda c: c.data and c.data.startswith('edit_keep_'), state='*')
+async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, state = FSMContext):
+    user_id = callback_query.from_user.id
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    if db.get_any(user_id, 'is_admin') == 0:
+        await callback_query.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        return
+    
+    obj = callback_query.data[10:]
+    if obj == 'name':
+        await state.update_data(name='keep_old')
+        await editEventState.next()
+        await bot.send_message(user_id, "Хорошо, оставляю старое название. Теперь введи ссылку на сообщество вк", reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежнию ссылку', callback_data=f'edit_keep_link')))
+    elif obj == 'link':
+        await state.update_data(link='keep_old')
+        await editEventState.next()
+        await bot.send_message(user_id, 'Хорошо, оставляю старую ссылку. Теперь введи хэштег, если он есть. Если нет, то напиши "нет"', reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежний хэштег', callback_data=f'edit_keep_hashtag')))
+    elif obj == 'hashtag':
+        await state.update_data(hashtag='keep_old')
+        await editEventState.next()
+        await bot.send_message(user_id, 'Хорошо, оставляю старый хэштег. Теперь введи краткое описание ивента', reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежнее описание', callback_data=f'edit_keep_description')))
+    
+    elif obj == 'description':
+        await state.update_data(description='keep_old')
+        user_data = await state.get_data()
+        old_name = user_data['old_name']
+
+        if user_data['link'] == 'keep_old': group_id = db.get_any_from_events('group_id',old_name)
+        else: group_id = user_data['link']
+
+        if user_data['name'] == 'keep_old': name = db.get_any_from_events('name',old_name)
+        else: name = user_data['name']
+        
+        if user_data['hashtag'] == 'keep_old': hashtag = db.get_any_from_events('hashtag',old_name)
+        else: hashtag = user_data['hashtag']
+        
+        if user_data['description'] == 'keep_old': description = db.get_any_from_events('description',old_name)
+        else: description = user_data['description']
+
+        db.edit_any_from_events('group_id', old_name, group_id)
+        db.edit_any_from_events('hashtag', old_name, hashtag)
+        db.edit_any_from_events('description', old_name, description)
+        db.edit_any_from_events('name', old_name, name)
+
+        keyboard = InlineKeyboardMarkup().add(InlineKeyboardButton(f'{name}', callback_data=f'info_{name}'))
+
+        await bot.send_message(user_id, "Твой ивент успешно обновлен! Хочешь посмотреть?", reply_markup=keyboard)
+        await state.finish()
+
+
+    
+    
 
 
 # Обработка кэлбек кнопок с расылкой

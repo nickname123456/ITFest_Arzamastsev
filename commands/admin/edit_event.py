@@ -47,7 +47,12 @@ async def edit_event_start(callback_query: types.CallbackQuery, state: FSMContex
     await editEventState.name.set()
     await state.update_data(old_name=data)
 
-    await bot.send_message(user_id, f'Хочешь изменить {data}? Ну ок. Введи новое название')
+    keyboard = (
+            InlineKeyboardMarkup()
+            .add(InlineKeyboardButton('Оставить прежнее название', callback_data=f'edit_keep_name'))
+        )
+
+    await bot.send_message(user_id, f'Хочешь изменить {data}? Ну ок. Введи новое название', reply_markup=keyboard)
 
 
 async def edit_event_name(message: types.Message, state: FSMContext):
@@ -60,7 +65,12 @@ async def edit_event_name(message: types.Message, state: FSMContext):
     await state.update_data(name=message.text)
     await editEventState.next()
 
-    await message.answer(f'{message.text}? Отличное название! Теперь введи ссылку на сообщество вк')
+    keyboard = (
+            InlineKeyboardMarkup()
+            .add(InlineKeyboardButton('Оставить прежнию ссылку', callback_data=f'edit_keep_link'))
+        )
+
+    await message.answer(f'{message.text}? Отличное название! Теперь введи ссылку на сообщество вк', reply_markup=keyboard)
 
 
 
@@ -77,7 +87,12 @@ async def edit_event_link(message: types.Message, state: FSMContext):
     await state.update_data(link=message.text)
     await editEventState.next()
 
-    await message.answer(f'{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то напиши "нет"')
+    keyboard = (
+            InlineKeyboardMarkup()
+            .add(InlineKeyboardButton('Оставить прежний хэштег', callback_data=f'edit_keep_hashtag'))
+        )
+
+    await message.answer(f'{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то напиши "нет"', reply_markup=keyboard)
 
 
 
@@ -91,12 +106,17 @@ async def edit_event_hashtag(message: types.Message, state: FSMContext):
         await message.answer('Хэштег должен начинаться на "#"!')
         return
     
+    keyboard = (
+            InlineKeyboardMarkup()
+            .add(InlineKeyboardButton('Оставить прежнее описание', callback_data=f'edit_keep_description'))
+        )
+
     if message.text.lower() == 'нет': 
         await state.update_data(hashtag='')
-        await message.answer("Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента")
+        await message.answer("Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента", reply_markup=keyboard)
     else: 
         await state.update_data(hashtag=message.text)
-        await message.answer(f"{message.text} ! А че, звучит хайпова. Теперь введи краткое описание ивента")
+        await message.answer(f"{message.text} ! А че, звучит хайпова. Теперь введи краткое описание ивента", reply_markup=keyboard)
 
     await editEventState.next()
     
