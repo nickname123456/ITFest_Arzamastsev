@@ -1,6 +1,7 @@
+# Импортируем бд
 from sqlighter import SQLighter
 
-db = SQLighter('it_fest.db')
+db = SQLighter('it_fest.db') # Подключаемся к бд
 
 async def start(message):
     try:
