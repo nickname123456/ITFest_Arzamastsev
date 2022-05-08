@@ -143,7 +143,7 @@ async def edit_event_description(message: types.Message, state: FSMContext):
         await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
         return
     
-    await state.update_data(description='keep_old')
+    await state.update_data(description=message.text)
     
     user_data = await state.get_data() # Получаем все новые данные
     old_name = user_data['old_name'] # Старое название
