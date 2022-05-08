@@ -1,5 +1,5 @@
 # Импортируем бд
-from sqlighter import SQLighter
+from PostgreSQLighter import SQLighter
 
 db = SQLighter('it_fest.db') # Подключаемся к бд
 

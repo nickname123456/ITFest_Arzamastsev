@@ -1,6 +1,6 @@
 # Импортируем библиотеки
 from aiogram import Bot, types
-from sqlighter import SQLighter
+from PostgreSQLighter import SQLighter
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from settings import *

@@ -1,7 +1,7 @@
 # Импортируем библиотеки
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
-from sqlighter import SQLighter
+from PostgreSQLighter import SQLighter
 
 from settings import *
 from private_data import TOKEN_TG

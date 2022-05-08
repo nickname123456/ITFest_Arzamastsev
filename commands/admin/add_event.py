@@ -1,6 +1,6 @@
 # Импортируем библиотеки
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from sqlighter import SQLighter
+from PostgreSQLighter import SQLighter
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
