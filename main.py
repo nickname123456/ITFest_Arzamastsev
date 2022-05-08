@@ -7,7 +7,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils import executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters import Text
-from sqlighter import SQLighter
+from PostgreSQLighter import SQLighter
 
 from settings import *
 from private_data import TOKEN_TG, admin_password

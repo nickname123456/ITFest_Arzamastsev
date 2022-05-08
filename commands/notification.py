@@ -2,7 +2,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
-from sqlighter import SQLighter
+from PostgreSQLighter import SQLighter
 
 import parser_vk
 from private_data import TOKEN_TG
