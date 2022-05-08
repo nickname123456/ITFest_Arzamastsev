@@ -1,14 +1,17 @@
 # Импортируем библиотеки
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from PostgreSQLighter import SQLighter
-from aiogram import types
+from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from settings import *
+from private_data import TOKEN_TG
 
 # Подключение к бд
 db = SQLighter('it_fest.db')
+# Инициализируем бота
+bot = Bot(token=TOKEN_TG)
 
 
 # Создаем стейты
@@ -28,7 +31,7 @@ async def add_event_start(message: types.Message):
         await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
         return
     
-    await message.answer('Новый ивент? Это хорошо! Введи название')
+    await bot.send_message(user_id, 'Новый ивент? Это хорошо! Введи название')
     await addEventState.name.set() # Задаем стейт
 
 
@@ -118,7 +121,11 @@ async def add_event_description(message: types.Message, state: FSMContext):
     
     db.add_event(name, group_id, hashtag, description) # Добавляем новый ивент
 
-    keyboard = InlineKeyboardMarkup().add(InlineKeyboardButton(f'{name}', callback_data=f'info_{name}'))
+    keyboard = (
+        InlineKeyboardMarkup()
+        .add(InlineKeyboardButton(f'{name}', callback_data=f'info_{name}'))
+        .add(InlineKeyboardButton('Добавить еще ивент', callback_data=f'add_event'))
+        )
 
     await message.answer("Твой ивент успешно добавлен! Хочешь посмотреть?", reply_markup=keyboard)
     await state.finish() # Завершаем

@@ -131,6 +131,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 
 # Команда добавления ивента
+@dp.callback_query_handler(lambda c: c.data and c.data =='add_event')
 @dp.message_handler(commands=['add', 'addevent', 'добавить'])
 async def process_add_event_start(message: types.Message):
     user_id = message.from_user.id
