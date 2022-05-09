@@ -12,7 +12,7 @@ class SQLighter:
         self.cursor = self.connection.cursor()
         # Создаем таблицу с юзерами
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS users ( 
-                id INT,
+                id BIGINT,
                 is_admin INT
                 )""")
 
@@ -37,8 +37,8 @@ class SQLighter:
 
 
     # Получить все про юзера
-    def get_all(self, id):
-        self.cursor.execute(f'SELECT * FROM users WHERE id = {id}')
+    def get_all(self):
+        self.cursor.execute(f'SELECT * FROM users')
         return self.cursor.fetchall()
     
     # Получить все ивенты

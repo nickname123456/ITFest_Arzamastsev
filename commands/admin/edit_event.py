@@ -47,6 +47,13 @@ async def edit_event_start(callback_query: types.CallbackQuery, state: FSMContex
 
     data = str(callback_query.data)[5:]
 
+    # Проверка, есть ли вообще ивент в бд
+    try:
+        db.get_any_from_events('name', data)
+    except TypeError:
+        await bot.edit_message_text('Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили', user_id, callback_query.message.message_id) # Редактируем старое сообщение
+        return
+
     await editEventState.name.set() # Задаем стейт
     await state.update_data(old_name=data) # Задаем старое название
 
