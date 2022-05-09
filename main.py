@@ -28,6 +28,7 @@ from commands.admin.add_event import add_event_start, add_event_name, add_event_
 from commands.admin.cancel import cancel
 from commands.admin.delete_event import delete_event_kb, callback_delete
 from commands.admin.edit_event import edit_event_kb, edit_event_description,edit_event_hashtag,edit_event_link,edit_event_name, edit_event_start
+from commands.admin.adm_panel import adm_menu
 
 
 scheduler = AsyncIOScheduler()
@@ -58,6 +59,21 @@ async def process_menu_command(message: types.Message):
         return
     
     await menu(message)
+
+
+# Команда админ меню
+@dp.callback_query_handler(lambda c: c.data and c.data =='admin_menu')
+@dp.message_handler(commands=['admmenu', 'адмменю'], commands_prefix='/')
+async def process_menu_command(message: types.Message):
+    user_id = message.from_user.id
+    # Проверка на то, есть ли юзер в бд
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
+    await adm_menu(message)
 
 
 # Команда помощь
@@ -91,6 +107,7 @@ async def process_help_command(message: types.Message):
 
 
 # Команда удаления ивента
+@dp.callback_query_handler(lambda c: c.data and c.data =='delete')
 @dp.message_handler(commands=['delete', 'удалить'])
 async def process_help_command(message: types.Message):
     user_id = message.from_user.id
@@ -105,6 +122,7 @@ async def process_help_command(message: types.Message):
 
 
 # Команда изменения ивента
+@dp.callback_query_handler(lambda c: c.data and c.data =='edit')
 @dp.message_handler(commands=['edit', 'изменить'])
 async def process_help_command(message: types.Message):
     user_id = message.from_user.id

@@ -25,7 +25,7 @@ async def delete_event_kb(message: types.Message):
     for event in events:
         kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'delete_{event[0]}'))
 
-    await message.answer('Какой ивент ты хочешь удалить?', reply_markup=kb)
+    await bot.send_message(user_id, 'Какой ивент ты хочешь удалить?', reply_markup=kb)
 
 
 

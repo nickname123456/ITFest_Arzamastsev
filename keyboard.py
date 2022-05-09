@@ -15,3 +15,12 @@ menu_inline_kb = (
     .add(InlineKeyboardButton('✔Подписки', callback_data='subscriptions'), 
         InlineKeyboardButton('🔓Доступные мероприятия', callback_data='available_events'))
 )
+
+adm_nenu_kb =(
+    InlineKeyboardMarkup()
+    .add(InlineKeyboardButton('Информация об ивенте', callback_data='adm_events_information'),
+        InlineKeyboardButton('Статистика', callback_data='adm_statistics'))
+    .add(InlineKeyboardButton('Добавить', callback_data='add_event'),
+        InlineKeyboardButton('Изменить', callback_data='edit'),
+        InlineKeyboardButton('Удалить', callback_data='delete'))
+)

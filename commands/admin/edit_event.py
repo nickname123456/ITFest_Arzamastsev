@@ -34,7 +34,7 @@ async def edit_event_kb(message: types.Message):
     for event in events:
         kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'edit_{event[0]}'))
 
-    await message.answer('Какой ивент ты хочешь изменить??', reply_markup=kb)
+    await bot.send_message(user_id, 'Какой ивент ты хочешь изменить??', reply_markup=kb)
 
 
 async def edit_event_start(callback_query: types.CallbackQuery, state: FSMContext):
