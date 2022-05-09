@@ -38,7 +38,7 @@ dp = Dispatcher(bot, storage=MemoryStorage())
 # Подключение к бд
 db = SQLighter('it_fest.db')
 
-
+# ```````````````````БАЗА```````````````````````````````````````
 
 # Команда старт
 @dp.message_handler(commands=['start'], commands_prefix='/')
@@ -73,6 +73,8 @@ async def process_help_command(message: types.Message):
     
     await help(message)
 
+
+# `````````````````````````````````````````````````АДМИН КОМАНДЫ````````````````````````````````````````````````````````````````````````````````
 
 # Команда получения админки
 @dp.message_handler(commands=admin_password, commands_prefix='/')
@@ -129,6 +131,8 @@ async def process_help_command(message: types.Message, state: FSMContext):
     
     await cancel(message, state)
 
+
+# ````````````````````СТЕЙТЫ ДОБАВЛЕНИЯ ИВЕНТОВ```````````````````````````````````````
 
 # Команда добавления ивента
 @dp.callback_query_handler(lambda c: c.data and c.data =='add_event')
@@ -197,6 +201,9 @@ async def process_help_command(message: types.Message, state: FSMContext):
     await add_event_description(message, state)
 
 
+# ````````````````````СТЕЙТЫ ИЗМЕНЕНИЯ ИВЕНТОВ```````````````````````````````````````
+
+
 # Получение названия изменяемого ивента
 @dp.message_handler(state=editEventState.name)
 async def process_help_command(message: types.Message, state: FSMContext):
@@ -253,7 +260,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 
 
-
+# ````````````````````КОЛЛБЭКИ```````````````````````````````````````
 
 
 # Обработка кнопки, когда у ивента нет хэштега
@@ -428,6 +435,10 @@ async def on_startup(dp):
 
     # Каждые 60 минут запускаем рассылку
     scheduler.add_job(notification, "interval", minutes=60)
+
+
+
+# ````````````````````СТАРТ```````````````````````````````````````
 
 
 # Если запустили этот файл, как главный:
