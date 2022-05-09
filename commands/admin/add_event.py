@@ -4,6 +4,7 @@ from PostgreSQLighter import SQLighter
 from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+import random
 
 from settings import *
 from private_data import TOKEN_TG
@@ -129,3 +130,8 @@ async def add_event_description(message: types.Message, state: FSMContext):
 
     await message.answer("Твой ивент успешно добавлен! Хочешь посмотреть?", reply_markup=keyboard)
     await state.finish() # Завершаем
+
+    for user in db.get_all():
+        await bot.send_message(user[0], 
+            f'{random.choice(smiles)}{random.choice(greetings)}! Уважаемая Администрация добавила новый ивент! Хочешь посмотреть?', 
+            reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(f'{name}', callback_data=f'info_{name}')))
