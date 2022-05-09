@@ -24,12 +24,12 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
     try:
         followers = eval(db.get_any_from_events('users', data)) # Подписчики ивента
     except TypeError:
-        await bot.edit_message_text('Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили', user_id, callback_query.message.message_id) # Редактируем старое сообщение
+        await bot.edit_message_text('❌Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили', user_id, callback_query.message.message_id) # Редактируем старое сообщение
         return
 
     if user_id in followers: # Если юзер подписан
         followers.remove(user_id) # Отписываемся
-        await callback_query.answer(f'Ты успешно отписался от рассылки {data}.')
+        await callback_query.answer(f'✅Ты успешно отписался от рассылки {data}.')
 
         keyboard = (
             InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -38,7 +38,7 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
         status = '❌Вы не подписаны❌'
     else:
         followers.append(user_id) # Подписываемся
-        await callback_query.answer(f'Ты успешно подписался на рассылку {data}.')
+        await callback_query.answer(f'✅Ты успешно подписался на рассылку {data}.')
 
         keyboard = (
             InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -57,7 +57,7 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
     hashtag = db.get_any_from_events('hashtag', name)
     group_id = db.get_any_from_events('group_id', name)
     # По кусочкам собираем текст
-    text = f'Название: {name}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: {status}'
+    text = f'👀Название: {name}\n🙋‍♂️Число подписчиков: {len(followers)}\n🔗Ссылка: {group_id}\n#️⃣Хэштег: {hashtag}\n💢Описание: {description}\nСтатус: {status}'
     
     await bot.edit_message_text(text, user_id, callback_query.message.message_id) # Редактируем старое сообщение
     await bot.edit_message_reply_markup(user_id, callback_query.message.message_id, reply_markup=keyboard) # Говорим пользователю, что отписали/подписали его
