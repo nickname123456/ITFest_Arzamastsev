@@ -464,6 +464,8 @@ async def on_startup(dp):
     print('-------------------------------')
     print('')
 
+    await bot.send_message(admin_id, 'Бот запущен!')
+
     # Каждые 60 минут запускаем рассылку
     scheduler.add_job(notification, "interval", minutes=60)
 
