@@ -30,7 +30,7 @@ async def callback_info(callback_query: types.CallbackQuery):
     
         followers = eval(db.get_any_from_events('users', name)) # Получаем всех юзеров, подписанных на этот ивент
     except TypeError:
-        await callback_query.answer('Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили') # Редактируем старое сообщение
+        await callback_query.answer('❌Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили') # Редактируем старое сообщение
         return
 
     if user_id in followers: # Если юзер подписан
@@ -51,4 +51,4 @@ async def callback_info(callback_query: types.CallbackQuery):
         keyboard.insert(InlineKeyboardButton('Удалить', callback_data=f'delete_{name}'))
 
     # Отправляем сообщение
-    await bot.send_message(callback_query.from_user.id, text=f'Название: {name}\nЧисло подписчиков: {len(followers)}\nСсылка: {group_id}\nХэштег: {hashtag}\nОписание: {description}\nСтатус: {status}', reply_markup=keyboard)
+    await bot.send_message(callback_query.from_user.id, text=f'👀Название: {name}\n🙋‍♂️Число подписчиков: {len(followers)}\n🔗Ссылка: {group_id}\n#️⃣Хэштег: {hashtag}\n💢Описание: {description}\nСтатус: {status}', reply_markup=keyboard)
