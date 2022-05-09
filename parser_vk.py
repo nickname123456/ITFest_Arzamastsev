@@ -13,7 +13,7 @@ async def get_wall(owner_id, hashtag):
     # Результат = []
     result = []
     # Перебираем стену
-    for i in wall.items:
+    for i in wall.items[:5]:
         # Если в посте есть наш хэштег, то записываем текст поста в переменную результат
         if hashtag in str(i.text):
             date = i.date
