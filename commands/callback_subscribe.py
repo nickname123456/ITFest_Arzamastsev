@@ -21,7 +21,11 @@ async def callback_subscribe(callback_query: types.CallbackQuery):
     # id юзера
     user_id = callback_query.from_user.id
     
-    followers = eval(db.get_any_from_events('users', data)) # Подписчики ивента
+    try:
+        followers = eval(db.get_any_from_events('users', data)) # Подписчики ивента
+    except TypeError:
+        await bot.edit_message_text('Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили', user_id, callback_query.message.message_id) # Редактируем старое сообщение
+        return
 
     if user_id in followers: # Если юзер подписан
         followers.remove(user_id) # Отписываемся

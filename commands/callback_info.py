@@ -23,12 +23,16 @@ async def callback_info(callback_query: types.CallbackQuery):
     data = str(callback_query.data)
     name = data[5:] 
     # Получаем значения из бд
-    description = db.get_any_from_events('description', name)
-    hashtag = db.get_any_from_events('hashtag', name)
-    group_id = db.get_any_from_events('group_id', name)
+    try:
+        description = db.get_any_from_events('description', name)
+        hashtag = db.get_any_from_events('hashtag', name)
+        group_id = db.get_any_from_events('group_id', name)
     
+        followers = eval(db.get_any_from_events('users', name)) # Получаем всех юзеров, подписанных на этот ивент
+    except TypeError:
+        await callback_query.answer('Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили') # Редактируем старое сообщение
+        return
 
-    followers = eval(db.get_any_from_events('users', name)) # Получаем всех юзеров, подписанных на этот ивент
     if user_id in followers: # Если юзер подписан
         keyboard = (
             InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
