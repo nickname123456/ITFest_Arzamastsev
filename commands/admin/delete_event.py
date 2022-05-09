@@ -40,4 +40,4 @@ async def callback_delete(callback_query: types.CallbackQuery):
         return
     
     db.delete_any_from_events(data) # Удаляем ивент
-    await bot.send_message(user_id, f'Ты успешно удалил {data} !')
+    await bot.edit_message_text(f'Ты успешно удалил {data} !', user_id, callback_query.message.message_id)
