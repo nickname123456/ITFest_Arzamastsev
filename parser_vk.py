@@ -20,7 +20,7 @@ async def get_wall(owner_id, hashtag):
             date = datetime.datetime.fromtimestamp(date)
             date = date.strftime('%Y-%m-%d %H:%M:%S')
 
-            result.append(f"⚠️Новый пост⚠️\nДата: {date} \nТекст: \n{i.text}")
+            result.append(f"⚠️Новый пост⚠️\n📆Дата: {date} \n🗓️Текст: \n{i.text}")
         
     # Возвращаяем результат
     return result
