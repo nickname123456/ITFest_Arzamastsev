@@ -16,7 +16,7 @@ async def delete_event_kb(message: types.Message):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await message.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
 
     kb =InlineKeyboardMarkup(row_width=4)
@@ -25,7 +25,7 @@ async def delete_event_kb(message: types.Message):
     for event in events:
         kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'delete_{event[0]}'))
 
-    await bot.send_message(user_id, 'Какой ивент ты хочешь удалить?', reply_markup=kb)
+    await bot.send_message(user_id, '🤨Какой ивент ты хочешь удалить?', reply_markup=kb)
 
 
 
@@ -36,8 +36,8 @@ async def callback_delete(callback_query: types.CallbackQuery):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await bot.send_message(user_id, 'Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await bot.send_message(user_id, '⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     
     db.delete_any_from_events(data) # Удаляем ивент
-    await bot.edit_message_text(f'Ты успешно удалил {data} !', user_id, callback_query.message.message_id)
+    await bot.edit_message_text(f'✅Ты успешно удалил {data} !', user_id, callback_query.message.message_id)

@@ -55,7 +55,7 @@ async def process_menu_command(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await menu(message)
@@ -70,7 +70,7 @@ async def process_menu_command(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await adm_menu(message)
@@ -84,7 +84,7 @@ async def process_help_command(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await help(message)
@@ -100,7 +100,7 @@ async def process_help_command(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await give_adm(message)
@@ -114,7 +114,7 @@ async def statistics(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await adm_statistics(message)
@@ -128,7 +128,7 @@ async def process_help_command(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await delete_event_kb(message)
@@ -143,7 +143,7 @@ async def process_help_command(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await edit_event_kb(message)
@@ -157,7 +157,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await cancel(message, state)
@@ -174,7 +174,7 @@ async def process_add_event_start(message: types.Message):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await add_event_start(message)
@@ -187,7 +187,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await add_event_name(message, state)
@@ -200,7 +200,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await add_event_link(message, state)
@@ -213,7 +213,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await add_event_hashtag(message, state)
@@ -226,7 +226,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await add_event_description(message, state)
@@ -243,7 +243,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await edit_event_name(message, state)
@@ -256,7 +256,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await edit_event_link(message, state)
@@ -269,7 +269,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await edit_event_hashtag(message, state)
@@ -282,7 +282,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await message.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await edit_event_description(message, state)
@@ -302,16 +302,16 @@ async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, 
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await callback_query.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await callback_query.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await callback_query.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     
     await state.update_data(hashtag='')
     await addEventState.next()
-    await bot.send_message(user_id, "Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента")
+    await bot.send_message(user_id, "😲Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента")
 
 
 # Обработка кнопки, когда у ивента остается что-то старое
@@ -322,11 +322,11 @@ async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, 
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await callback_query.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await callback_query.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await callback_query.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     
     # объект равен ...
@@ -334,15 +334,15 @@ async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, 
     if obj == 'name':
         await state.update_data(name='keep_old') # Задаем значение в хранилище
         await editEventState.next() # Переходим на следующий этап
-        await bot.send_message(user_id, "Хорошо, оставляю старое название. Теперь введи ссылку на сообщество вк", reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежнию ссылку', callback_data=f'edit_keep_link')))
+        await bot.send_message(user_id, "👍Хорошо, оставляю старое название. Теперь введи ссылку на сообщество вк", reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежнию ссылку', callback_data=f'edit_keep_link')))
     elif obj == 'link':
         await state.update_data(link='keep_old')
         await editEventState.next()
-        await bot.send_message(user_id, 'Хорошо, оставляю старую ссылку. Теперь введи хэштег, если он есть. Если нет, то напиши "нет"', reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежний хэштег', callback_data=f'edit_keep_hashtag')))
+        await bot.send_message(user_id, '👍Хорошо, оставляю старую ссылку. Теперь введи хэштег, если он есть. Если нет, то напиши "нет"', reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежний хэштег', callback_data=f'edit_keep_hashtag')))
     elif obj == 'hashtag':
         await state.update_data(hashtag='keep_old')
         await editEventState.next()
-        await bot.send_message(user_id, 'Хорошо, оставляю старый хэштег. Теперь введи краткое описание ивента', reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежнее описание', callback_data=f'edit_keep_description')))
+        await bot.send_message(user_id, '👍Хорошо, оставляю старый хэштег. Теперь введи краткое описание ивента', reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton('Оставить прежнее описание', callback_data=f'edit_keep_description')))
     
     elif obj == 'description':
         await state.update_data(description='keep_old')
@@ -370,7 +370,7 @@ async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, 
         # Создаем клавиатуру
         keyboard = InlineKeyboardMarkup().add(InlineKeyboardButton(f'{name}', callback_data=f'info_{name}'))
 
-        await bot.send_message(user_id, "Твой ивент успешно обновлен! Хочешь посмотреть?", reply_markup=keyboard)
+        await bot.send_message(user_id, "✅Твой ивент успешно обновлен! Хочешь посмотреть?", reply_markup=keyboard)
         await state.finish() # Заканчиваем
 
 
@@ -386,7 +386,7 @@ async def process_callback_subscribe(callback_query: types.CallbackQuery):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await callback_query.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await callback_subscribe(callback_query)
@@ -400,7 +400,7 @@ async def process_callback_info(callback_query: types.CallbackQuery):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await callback_query.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await callback_info(callback_query)
@@ -414,7 +414,7 @@ async def process_callback_delete(callback_query: types.CallbackQuery):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await callback_query.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await callback_delete(callback_query)
@@ -428,7 +428,7 @@ async def process_callback_delete(callback_query: types.CallbackQuery, state: FS
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await callback_query.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await edit_event_start(callback_query, state)
@@ -443,7 +443,7 @@ async def process_callback(callback_query: types.CallbackQuery=None):
     try:
         db.get_any(user_id, 'id')
     except TypeError:
-        await callback_query.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        await callback_query.answer('😬Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
         return
     
     await callback(callback_query)

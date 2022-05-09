@@ -25,7 +25,7 @@ async def edit_event_kb(message: types.Message):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await message.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     
     kb =InlineKeyboardMarkup(row_width=4)
@@ -34,7 +34,7 @@ async def edit_event_kb(message: types.Message):
     for event in events:
         kb.insert(InlineKeyboardButton(f'{event[0]}', callback_data=f'edit_{event[0]}'))
 
-    await bot.send_message(user_id, 'Какой ивент ты хочешь изменить??', reply_markup=kb)
+    await bot.send_message(user_id, '🧐Какой ивент ты хочешь изменить??', reply_markup=kb)
 
 
 async def edit_event_start(callback_query: types.CallbackQuery, state: FSMContext):
@@ -42,7 +42,7 @@ async def edit_event_start(callback_query: types.CallbackQuery, state: FSMContex
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await bot.send_message(user_id,'Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await bot.send_message(user_id,'⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
 
     data = str(callback_query.data)[5:]
@@ -51,7 +51,7 @@ async def edit_event_start(callback_query: types.CallbackQuery, state: FSMContex
     try:
         db.get_any_from_events('name', data)
     except TypeError:
-        await bot.edit_message_text('Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили', user_id, callback_query.message.message_id) # Редактируем старое сообщение
+        await bot.edit_message_text('🫠Прости, но кажется этого ивента у меня нет в базе данных. Возможно его удалили', user_id, callback_query.message.message_id) # Редактируем старое сообщение
         return
 
     await editEventState.name.set() # Задаем стейт
@@ -62,7 +62,7 @@ async def edit_event_start(callback_query: types.CallbackQuery, state: FSMContex
             .add(InlineKeyboardButton('Оставить прежнее название', callback_data=f'edit_keep_name'))
         )
 
-    await bot.send_message(user_id, f'Хочешь изменить {data}? Ну ок. Введи новое название', reply_markup=keyboard)
+    await bot.send_message(user_id, f'😲Хочешь изменить {data}? Ну ок. Введи новое название', reply_markup=keyboard)
 
 
 async def edit_event_name(message: types.Message, state: FSMContext):
@@ -70,10 +70,10 @@ async def edit_event_name(message: types.Message, state: FSMContext):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await message.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     if len(message.text) > 35:
-        await message.answer('Слишком большое название! Пожалуйста, попробуй его сократить')
+        await message.answer('⛔Слишком большое название! Пожалуйста, попробуй его сократить')
         return
     
     await state.update_data(name=message.text) # Задаем новое название
@@ -84,7 +84,7 @@ async def edit_event_name(message: types.Message, state: FSMContext):
             .add(InlineKeyboardButton('Оставить прежнию ссылку', callback_data=f'edit_keep_link'))
         )
 
-    await message.answer(f'{message.text}? Отличное название! Теперь введи ссылку на сообщество вк', reply_markup=keyboard)
+    await message.answer(f'✅{message.text}? Отличное название! Теперь введи ссылку на сообщество вк', reply_markup=keyboard)
 
 
 
@@ -93,11 +93,11 @@ async def edit_event_link(message: types.Message, state: FSMContext):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await message.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     # Если ссылка не вк
     if not message.text.startswith(tuple('https://vk.com/')):
-        await message.answer('Ссылка должна начинаться на "https://vk.com/"!')
+        await message.answer('❌Ссылка должна начинаться на "https://vk.com/"!')
         return
     
     await state.update_data(link=message.text) # Задаем новую ссылку
@@ -108,7 +108,7 @@ async def edit_event_link(message: types.Message, state: FSMContext):
             .add(InlineKeyboardButton('Оставить прежний хэштег', callback_data=f'edit_keep_hashtag'))
         )
 
-    await message.answer(f'{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то напиши "нет"', reply_markup=keyboard)
+    await message.answer(f'✅{message.text}? Норм паблик! Теперь введи хэштег, если он есть. Если нет, то напиши "нет"', reply_markup=keyboard)
 
 
 
@@ -117,11 +117,11 @@ async def edit_event_hashtag(message: types.Message, state: FSMContext):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await message.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     # Если неправильный хэштег
     if not message.text.startswith(tuple('#')) and message.text.lower() != 'нет':
-        await message.answer('Хэштег должен начинаться на "#"!')
+        await message.answer('❌Хэштег должен начинаться на "#"!')
         return
     
     keyboard = (
@@ -131,10 +131,10 @@ async def edit_event_hashtag(message: types.Message, state: FSMContext):
 
     if message.text.lower() == 'нет': # Если нет хэштега
         await state.update_data(hashtag='')
-        await message.answer("Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента", reply_markup=keyboard)
+        await message.answer("🫡Нет хэштега? Ну ничего страшного! Я буду рассылать все посты из указанного паблика. А теперь введи краткое описание ивента", reply_markup=keyboard)
     else: # Если есть хэштег
         await state.update_data(hashtag=message.text)
-        await message.answer(f"{message.text} ! А че, звучит хайпова. Теперь введи краткое описание ивента", reply_markup=keyboard)
+        await message.answer(f"✅{message.text} ! А че, звучит хайпова. Теперь введи краткое описание ивента", reply_markup=keyboard)
 
     await editEventState.next() # Переходим на следующий этап
     
@@ -147,7 +147,7 @@ async def edit_event_description(message: types.Message, state: FSMContext):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await message.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
     
     await state.update_data(description=message.text)
@@ -175,5 +175,5 @@ async def edit_event_description(message: types.Message, state: FSMContext):
 
     keyboard = InlineKeyboardMarkup().add(InlineKeyboardButton(f'{name}', callback_data=f'info_{name}'))
 
-    await message.answer("Твой ивент успешно обновлен! Хочешь посмотреть?", reply_markup=keyboard)
+    await message.answer("✅Твой ивент успешно обновлен! Хочешь посмотреть?", reply_markup=keyboard)
     await state.finish() # Завершаем

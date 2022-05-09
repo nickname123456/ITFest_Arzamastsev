@@ -19,10 +19,10 @@ async def adm_menu(message):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await message.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await message.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
 
-    await bot.send_message(user_id, 'Вот доступные инструменты для администраторов:', reply_markup=adm_nenu_kb)
+    await bot.send_message(user_id, '⚙Вот доступные инструменты для администраторов:', reply_markup=adm_nenu_kb)
 
 
 async def adm_statistics(callback_query: types.CallbackQuery):
@@ -30,7 +30,7 @@ async def adm_statistics(callback_query: types.CallbackQuery):
 
     # Проверка на то, является ли юзер админом
     if db.get_any(user_id, 'is_admin') == 0:
-        await callback_query.answer('Это команда доступна только администраторам! \n Если хочешь им стать, обратись к @Momfj')
+        await callback_query.answer('⛔Это команда доступна только администраторам!⛔ \n Если хочешь им стать, обратись к @Momfj')
         return
 
     num_of_users = len(db.get_all())
