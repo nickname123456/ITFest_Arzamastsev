@@ -63,7 +63,7 @@ async def process_menu_command(message: types.Message):
 
 # Команда админ меню
 @dp.callback_query_handler(lambda c: c.data and c.data =='admin_menu')
-@dp.message_handler(commands=['admmenu', 'адмменю'], commands_prefix='/')
+@dp.message_handler(commands=['admmenu', 'адмменю', 'admpanel'], commands_prefix='/')
 async def process_menu_command(message: types.Message):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
