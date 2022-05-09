@@ -28,7 +28,7 @@ from commands.admin.add_event import add_event_start, add_event_name, add_event_
 from commands.admin.cancel import cancel
 from commands.admin.delete_event import delete_event_kb, callback_delete
 from commands.admin.edit_event import edit_event_kb, edit_event_description,edit_event_hashtag,edit_event_link,edit_event_name, edit_event_start
-from commands.admin.adm_panel import adm_menu
+from commands.admin.adm_panel import adm_menu, adm_statistics
 
 
 scheduler = AsyncIOScheduler()
@@ -105,6 +105,19 @@ async def process_help_command(message: types.Message):
     
     await give_adm(message)
 
+
+@dp.message_handler(commands=['adm_statistics', 'admstatistics', 'стата', 'статистика', 'stata'])
+@dp.callback_query_handler(lambda c: c.data and c.data =='adm_statistics')
+async def statistics(message: types.Message):
+    user_id = message.from_user.id
+    # Проверка на то, есть ли юзер в бд
+    try:
+        db.get_any(user_id, 'id')
+    except TypeError:
+        await message.answer('Так.. Смотрю тебя нет в моей базе данных. Пожалуйста, напиши /start для того, чтобы я тебя зарегистрировал)')
+        return
+    
+    await adm_statistics(message)
 
 # Команда удаления ивента
 @dp.callback_query_handler(lambda c: c.data and c.data =='delete')
