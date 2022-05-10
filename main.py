@@ -63,8 +63,9 @@ async def process_menu_command(message: types.Message):
 
 # Команда админ меню
 @dp.callback_query_handler(lambda c: c.data and c.data =='admin_menu')
+@dp.message_handler(Text(equals=["👾Админ-панель"]))
 @dp.message_handler(commands=['admmenu', 'адмменю', 'admpanel'], commands_prefix='/')
-async def process_menu_command(message: types.Message):
+async def process_adm_panel_command(message: types.Message):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -94,7 +95,7 @@ async def process_help_command(message: types.Message):
 
 # Команда получения админки
 @dp.message_handler(commands=admin_password, commands_prefix='/')
-async def process_help_command(message: types.Message):
+async def process_give_adm_command(message: types.Message):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -122,7 +123,7 @@ async def statistics(message: types.Message):
 # Команда удаления ивента
 @dp.callback_query_handler(lambda c: c.data and c.data =='delete')
 @dp.message_handler(commands=['delete', 'удалить'])
-async def process_help_command(message: types.Message):
+async def process_del_event_command(message: types.Message):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -137,7 +138,7 @@ async def process_help_command(message: types.Message):
 # Команда изменения ивента
 @dp.callback_query_handler(lambda c: c.data and c.data =='edit')
 @dp.message_handler(commands=['edit', 'изменить'])
-async def process_help_command(message: types.Message):
+async def process_edit_event_command(message: types.Message):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -151,7 +152,7 @@ async def process_help_command(message: types.Message):
 
 # Команда отмены
 @dp.message_handler(commands=['cancel', 'отмена'],state='*')
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_cancel_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -181,7 +182,7 @@ async def process_add_event_start(message: types.Message):
 
 # Получение названия нового ивента
 @dp.message_handler(state=addEventState.name)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_add_name_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -194,7 +195,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 # Получение ссылки нового ивента
 @dp.message_handler(state=addEventState.link)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_add_link_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -207,7 +208,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 # Получение хэштега нового ивента
 @dp.message_handler(state=addEventState.hashtag)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_add_hashtag_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -220,7 +221,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 # Получение описания нового ивента
 @dp.message_handler(state=addEventState.description)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_add_description_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -237,7 +238,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 # Получение названия изменяемого ивента
 @dp.message_handler(state=editEventState.name)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_edit_name_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -250,7 +251,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 # Получение ссылки изменяемого ивента
 @dp.message_handler(state=editEventState.link)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_edit_link_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -263,7 +264,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 # Получение хэштега изменяемого ивента
 @dp.message_handler(state=editEventState.hashtag)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_edit_hashtag_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -276,7 +277,7 @@ async def process_help_command(message: types.Message, state: FSMContext):
 
 # Получение описания изменяемого ивента
 @dp.message_handler(state=editEventState.description)
-async def process_help_command(message: types.Message, state: FSMContext):
+async def process_edit_description_command(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -316,7 +317,7 @@ async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, 
 
 # Обработка кнопки, когда у ивента остается что-то старое
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('edit_keep_'), state='*')
-async def process_callback_add_non_hashtag(callback_query: types.CallbackQuery, state = FSMContext):
+async def process_callback_edit_keep(callback_query: types.CallbackQuery, state = FSMContext):
     user_id = callback_query.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
@@ -422,7 +423,7 @@ async def process_callback_delete(callback_query: types.CallbackQuery):
 
 # Обработка кнопки изменения ивента
 @dp.callback_query_handler(lambda c: c.data and c.data.startswith('edit_'))
-async def process_callback_delete(callback_query: types.CallbackQuery, state: FSMContext):
+async def process_callback_edit(callback_query: types.CallbackQuery, state: FSMContext):
     user_id = callback_query.from_user.id
     # Проверка на то, есть ли юзер в бд
     try:
