@@ -8,6 +8,13 @@ menu_kb = (
     .add(KeyboardButton('✔Подписки'), 
         KeyboardButton('🔓Доступные мероприятия'))
 )
+menu_kb_for_adm = (
+    ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    .add(KeyboardButton('ℹИнформация'))
+    .add(KeyboardButton('✔Подписки'), 
+        KeyboardButton('🔓Доступные мероприятия'))
+    .add(KeyboardButton('👾Админ-панель'))
+)
 
 menu_inline_kb = (
     InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
