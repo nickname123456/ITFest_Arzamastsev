@@ -1,3 +1,4 @@
 it_fest.db
 private_data.py
-**/__pycache__/
+../__pycache__/
+__pycache__/
